@@ -1,10 +1,10 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from 'react-native';
 
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { SafeView } from "@/components/layout/SafeView";
-import { useWeatherContext } from "@/providers/WeatherProvider";
-import { CurrentWeather } from "@/components/CurrentWeather/CurrentWeather";
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { SafeView } from '@/components/layout/SafeView';
+import { useWeatherContext } from '@/providers/WeatherProvider';
+import { CurrentWeather } from '@/components/CurrentWeather/CurrentWeather';
 
 export default function HomeScreen() {
   const { weather } = useWeatherContext();
@@ -15,7 +15,7 @@ export default function HomeScreen() {
       <ScrollView>
         {weather.slice(1).map((entry) => (
           <ThemedText>
-            {entry.time.format("DD/MM/YYYY HH:mm")} {entry.temperature}
+            {entry.time.format('DD/MM/YYYY HH:mm')} {entry.temperature}
           </ThemedText>
         ))}
       </ScrollView>
@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
     width: 290,
     bottom: 0,
     left: 0,
-    position: "absolute",
+    position: 'absolute',
   },
 });

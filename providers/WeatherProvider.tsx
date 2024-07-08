@@ -6,10 +6,10 @@ import {
   useEffect,
   useMemo,
   useState,
-} from "react";
-import * as Location from "expo-location";
-import axios from "axios";
-import dayjs, { Dayjs } from "dayjs";
+} from 'react';
+import * as Location from 'expo-location';
+import axios from 'axios';
+import dayjs, { Dayjs } from 'dayjs';
 
 const getWeatherEndpoint = (location: Location.LocationObject) => {
   return `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
@@ -64,7 +64,7 @@ export const WeatherProvider = ({ children }: PropsWithChildren) => {
   const getWeather = useCallback(async () => {
     if (!location) return;
     const { data } = await axios.get(getWeatherEndpoint(location), {
-      headers: { "User-Agent": "grzegorz.pach@protonmail.com" },
+      headers: { 'User-Agent': 'grzegorz.pach@protonmail.com' },
     });
 
     setWeather(mapApiDataToWeatherEntries(data));
@@ -72,13 +72,13 @@ export const WeatherProvider = ({ children }: PropsWithChildren) => {
   }, [location]);
 
   const getLocation = useCallback(async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
       setLocation(undefined);
       return;
     }
 
-    let location = await Location.getCurrentPositionAsync({});
+    const location = await Location.getCurrentPositionAsync({});
     setLocation(location);
   }, []);
 
@@ -105,7 +105,7 @@ export const WeatherProvider = ({ children }: PropsWithChildren) => {
 export const useWeatherContext = (): WeatherContextType => {
   const context = useContext(WeatherContext);
   if (context === undefined) {
-    throw new Error("WeatherContext must be used in WeatherProvider");
+    throw new Error('WeatherContext must be used in WeatherProvider');
   }
   return context;
 };

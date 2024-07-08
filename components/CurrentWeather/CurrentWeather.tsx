@@ -1,10 +1,9 @@
-import { WeatherEntry } from "@/providers/WeatherProvider";
-import { ReactNode } from "react";
-import { View } from "react-native";
-import { StyleSheet } from "react-native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
-import styled from "styled-components";
+import { WeatherEntry } from '@/providers/WeatherProvider';
+import { ReactNode } from 'react';
+import { View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '../ThemedText';
+import { ThemedView } from '../ThemedView';
 
 export const CurrentWeather = ({
   weather,
@@ -14,7 +13,7 @@ export const CurrentWeather = ({
   return (
     <ThemedView style={styles.container}>
       <View style={styles.topSection}>
-    <View style={styles.icon} />
+        <View style={styles.icon} />
         <ThemedText type="title">{weather?.temperature}°C</ThemedText>
       </View>
     </ThemedView>
@@ -32,12 +31,12 @@ const styles = StyleSheet.create({
   icon: {
     width: 75,
     height: 75,
-    backgroundColor: "red",
+    backgroundColor: 'red',
   },
   topSection: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
