@@ -19,7 +19,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.amtlib.weatherwidget",
+      "permissions": ["android.permission.ACCESS_FINE_LOCATION"]
     },
     "web": {
       "bundler": "metro",
