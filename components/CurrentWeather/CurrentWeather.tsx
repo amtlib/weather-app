@@ -1,20 +1,36 @@
-import { WeatherEntry } from '@/providers/WeatherProvider';
 import { ReactNode } from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
+import { WeatherEntry } from '@/api/validators/weatherapi.validator';
+import {
+  formatHumidity,
+  formatPressure,
+  formatWindSpeed,
+} from '@/constants/Units';
 
 export const CurrentWeather = ({
   weather,
+  isLoading,
 }: {
-  weather: WeatherEntry;
+  weather?: WeatherEntry;
+  isLoading?: boolean;
 }): ReactNode => {
+  if (isLoading || !weather) return <></>;
   return (
     <ThemedView style={styles.container}>
       <View style={styles.topSection}>
-        <View style={styles.icon} />
+        <Image
+          style={styles.icon}
+          source={require('@/assets/images/weather/rain.png')}
+        />
         <ThemedText type="title">{weather?.temperature}°C</ThemedText>
+      </View>
+      <View style={styles.details}>
+        <ThemedText>{formatHumidity(weather.humidity)}</ThemedText>
+        <ThemedText>{formatPressure(weather.pressure)}</ThemedText>
+        <ThemedText>{formatWindSpeed(weather.windSpeed)}</ThemedText>
       </View>
     </ThemedView>
   );
@@ -22,21 +38,27 @@ export const CurrentWeather = ({
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     marginHorizontal: 20,
     marginVertical: 10,
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
   },
   icon: {
-    width: 75,
-    height: 75,
-    backgroundColor: 'red',
+    width: 100,
+    height: 100,
   },
   topSection: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 20,
     justifyContent: 'space-between',
   },
 });
