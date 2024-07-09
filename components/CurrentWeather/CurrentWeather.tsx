@@ -9,6 +9,7 @@ import {
   formatPressure,
   formatWindSpeed,
 } from '@/constants/Units';
+import { getWeatherIcon } from '@/assets/images/weather';
 
 export const CurrentWeather = ({
   weather,
@@ -23,7 +24,7 @@ export const CurrentWeather = ({
       <View style={styles.topSection}>
         <Image
           style={styles.icon}
-          source={require('@/assets/images/weather/rain.png')}
+          source={getWeatherIcon(weather.symbolCode)}
         />
         <ThemedText type="title">{weather?.temperature}°C</ThemedText>
       </View>
