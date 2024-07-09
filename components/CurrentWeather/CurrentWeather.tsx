@@ -10,6 +10,7 @@ import {
   formatWindSpeed,
 } from '@/constants/Units';
 import { getWeatherIcon } from '@/assets/images/weather';
+import { useLocationContext } from '@/providers/LocationProvider';
 
 export const CurrentWeather = ({
   weather,
@@ -18,9 +19,15 @@ export const CurrentWeather = ({
   weather?: WeatherEntry;
   isLoading?: boolean;
 }): ReactNode => {
+  const { city, country } = useLocationContext();
   if (isLoading || !weather) return <></>;
   return (
     <ThemedView style={styles.container}>
+      <View style={styles.locationSection}>
+        <ThemedText type="title" style={{ textAlign: 'center' }}>
+          {city}, {country}
+        </ThemedText>
+      </View>
       <View style={styles.topSection}>
         <Image
           style={styles.icon}
@@ -49,6 +56,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 100,
     height: 100,
+  },
+  locationSection: {
+    marginBottom: 20,
   },
   topSection: {
     display: 'flex',
