@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
-import { View } from 'react-native';
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ThemedView } from '../ThemedView';
 
 export const SafeView = ({ children }: PropsWithChildren) => {
   const insets = useSafeAreaInsets();
   return (
-    <View
+    <ThemedView
       style={{
         flex: 1,
         paddingTop: insets.top,
@@ -16,6 +16,6 @@ export const SafeView = ({ children }: PropsWithChildren) => {
       }}
     >
       {children}
-    </View>
+    </ThemedView>
   );
 };
