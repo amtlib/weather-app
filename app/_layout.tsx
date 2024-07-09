@@ -12,6 +12,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { WeatherProvider } from '@/providers/WeatherProvider';
+import { LocationProvider } from '@/providers/LocationProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,20 +34,22 @@ export default function RootLayout() {
   }
 
   return (
-    <WeatherProvider>
-      <SafeAreaProvider>
-        <ThemeProvider
-          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
-          <Stack>
-            <Stack.Screen
-              name="(tabs)/index"
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-        </ThemeProvider>
-      </SafeAreaProvider>
-    </WeatherProvider>
+    <LocationProvider>
+      <WeatherProvider>
+        <SafeAreaProvider>
+          <ThemeProvider
+            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+          >
+            <Stack>
+              <Stack.Screen
+                name="(tabs)/index"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+          </ThemeProvider>
+        </SafeAreaProvider>
+      </WeatherProvider>
+    </LocationProvider>
   );
 }

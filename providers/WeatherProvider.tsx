@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import * as Location from 'expo-location';
+
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -15,13 +15,14 @@ import {
   validateWeatherApiResponse,
 } from '@/api/validators/weatherapi.validator';
 import { WeatherApiResponse } from '@/api/validators/weatherapi.types';
+import * as Location from 'expo-location';
+import { useLocationContext } from './LocationProvider';
 
 const getWeatherEndpoint = (location: Location.LocationObject) => {
   return `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
 };
 
 interface WeatherContextType {
-  location: Location.LocationObject | undefined;
   weather: WeatherCollection;
   isLoading: boolean;
 }
@@ -61,17 +62,14 @@ const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
 };
 
 const WeatherContext = createContext<WeatherContextType>({
-  location: undefined,
   weather: [],
   isLoading: true,
 });
 
 export const WeatherProvider = ({ children }: PropsWithChildren) => {
-  const [location, setLocation] = useState<
-    Location.LocationObject | undefined
-  >();
   const [weather, setWeather] = useState<WeatherCollection>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { location } = useLocationContext();
 
   const getWeather = useCallback(async () => {
     if (!location) return;
@@ -85,24 +83,7 @@ export const WeatherProvider = ({ children }: PropsWithChildren) => {
       setWeather(groupWeatherByDay(data));
       setIsLoading(false);
     }
-
-    // console.log(mapApiDataToWeatherEntries(data));
   }, [location]);
-
-  const getLocation = useCallback(async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      setLocation(undefined);
-      return;
-    }
-
-    const location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
-  }, []);
-
-  useEffect(() => {
-    getLocation();
-  }, []);
 
   useEffect(() => {
     getWeather();
