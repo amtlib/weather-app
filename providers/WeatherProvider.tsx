@@ -10,6 +10,11 @@ import {
 import * as Location from 'expo-location';
 import axios from 'axios';
 import dayjs, { Dayjs } from 'dayjs';
+import {
+  WeatherEntry,
+  validateWeatherApiResponse,
+} from '@/api/validators/weatherapi.validator';
+import { WeatherApiResponse } from '@/api/validators/weatherapi.types';
 
 const getWeatherEndpoint = (location: Location.LocationObject) => {
   return `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
@@ -17,58 +22,71 @@ const getWeatherEndpoint = (location: Location.LocationObject) => {
 
 interface WeatherContextType {
   location: Location.LocationObject | undefined;
-  weather: WeatherEntry[];
+  weather: WeatherCollection;
+  isLoading: boolean;
 }
 
-export interface WeatherEntry {
+export type WeatherCollection = {
   time: Dayjs;
-  pressure: number;
-  temperature: number;
-  humidity: number;
-  windDirection: number;
-  windSpeed: number;
-  symbolCode: string | undefined;
-}
+  entries: WeatherEntry[];
+}[];
 
-const mapApiDataToWeatherEntries = (apiData: any): WeatherEntry[] => {
-  return apiData.properties.timeseries
-    .map((timeseries) => {
-      const details = timeseries.data.instant.details;
-      const time = dayjs(timeseries.time);
-      if (time < dayjs()) return undefined;
+const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
+  const groupedWeather: { [date: string]: WeatherEntry[] } = {};
 
-      return {
-        time: time,
-        pressure: details.air_pressure_at_sea_level,
-        temperature: details.air_temperature,
-        humidity: details.relative_humidity,
-        windDirection: details.wind_from_direction,
-        windSpeed: details.wind_speed,
-        symbolCode: timeseries.data.next_1_hours?.summary.symbol_code,
-      };
-    })
-    .filter((e) => e !== undefined);
+  data.properties.timeseries.forEach((entry) => {
+    const entryTime = dayjs(entry.time);
+    const entryDate = entryTime.format('YYYY-MM-DD');
+
+    const weatherEntry: WeatherEntry = {
+      time: entryTime,
+      pressure: entry.data.instant.details.air_pressure_at_sea_level,
+      temperature: entry.data.instant.details.air_temperature,
+      humidity: entry.data.instant.details.relative_humidity,
+      windDirection: entry.data.instant.details.wind_from_direction,
+      windSpeed: entry.data.instant.details.wind_speed,
+      symbolCode: entry.data.next_1_hours?.summary.symbol_code || undefined,
+    };
+
+    if (!groupedWeather[entryDate]) {
+      groupedWeather[entryDate] = [];
+    }
+    groupedWeather[entryDate].push(weatherEntry);
+  });
+
+  return Object.keys(groupedWeather).map((date) => ({
+    time: dayjs(date),
+    entries: groupedWeather[date],
+  }));
 };
 
 const WeatherContext = createContext<WeatherContextType>({
   location: undefined,
   weather: [],
+  isLoading: true,
 });
 
 export const WeatherProvider = ({ children }: PropsWithChildren) => {
   const [location, setLocation] = useState<
     Location.LocationObject | undefined
   >();
-  const [weather, setWeather] = useState<WeatherEntry[]>([]);
+  const [weather, setWeather] = useState<WeatherCollection>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getWeather = useCallback(async () => {
     if (!location) return;
+    setIsLoading(true);
     const { data } = await axios.get(getWeatherEndpoint(location), {
       headers: { 'User-Agent': 'grzegorz.pach@protonmail.com' },
     });
 
-    setWeather(mapApiDataToWeatherEntries(data));
-    console.log(mapApiDataToWeatherEntries(data));
+    const isResponseValid = validateWeatherApiResponse(data);
+    if (isResponseValid) {
+      setWeather(groupWeatherByDay(data));
+      setIsLoading(false);
+    }
+
+    // console.log(mapApiDataToWeatherEntries(data));
   }, [location]);
 
   const getLocation = useCallback(async () => {
@@ -93,8 +111,9 @@ export const WeatherProvider = ({ children }: PropsWithChildren) => {
     () => ({
       location,
       weather,
+      isLoading,
     }),
-    [location, weather],
+    [location, weather, isLoading],
   );
 
   return (
