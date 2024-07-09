@@ -3,6 +3,7 @@ export const Units = {
   humidity: '%',
   pressure: 'hPa',
   windSpeed: 'm/s',
+  precipitation: 'mm',
 };
 
 export const formatTemperature = (temp: number) =>
@@ -16,3 +17,6 @@ export const formatPressure = (pressure: number) =>
 
 export const formatWindSpeed = (windSpeed: number) =>
   `${windSpeed} ${Units.windSpeed}`;
+
+export const formatPrecipitation = (precipitation: number) =>
+  `${precipitation}${Units.precipitation}`;

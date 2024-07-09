@@ -6,7 +6,9 @@ import { ThemedView } from '../ThemedView';
 import { WeatherEntry } from '@/api/validators/weatherapi.validator';
 import {
   formatHumidity,
+  formatPrecipitation,
   formatPressure,
+  formatTemperature,
   formatWindSpeed,
 } from '@/constants/Units';
 import { getWeatherIcon } from '@/assets/images/weather';
@@ -33,7 +35,17 @@ export const CurrentWeather = ({
           style={styles.icon}
           source={getWeatherIcon(weather.symbolCode)}
         />
-        <ThemedText type="title">{weather?.temperature}°C</ThemedText>
+        <View>
+          <ThemedText type="title">
+            {formatTemperature(weather.temperature)}
+          </ThemedText>
+          <ThemedText
+            type="subtitle"
+            style={{ textAlign: 'center', marginTop: 5 }}
+          >
+            {formatPrecipitation(weather.precipitation)}
+          </ThemedText>
+        </View>
       </View>
       <View style={styles.details}>
         <ThemedText>{formatHumidity(weather.humidity)}</ThemedText>

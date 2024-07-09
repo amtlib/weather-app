@@ -11,6 +11,7 @@ export interface WeatherEntry {
   windDirection: number;
   windSpeed: number;
   symbolCode: string | undefined;
+  precipitation: number;
 }
 
 export type WeatherCollection = {

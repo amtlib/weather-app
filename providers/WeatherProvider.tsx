@@ -47,6 +47,8 @@ const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
       windDirection: entry.data.instant.details.wind_from_direction,
       windSpeed: entry.data.instant.details.wind_speed,
       symbolCode: entry.data.next_1_hours?.summary.symbol_code || undefined,
+      precipitation:
+        entry.data.next_1_hours?.details?.precipitation_amount || 0,
     };
 
     if (!groupedWeather[entryDate]) {
