@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, SectionList } from 'react-native';
-import { WeatherCollection } from '@/providers/WeatherProvider';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 import {
   formatHumidity,
+  formatPrecipitation,
   formatPressure,
   formatTemperature,
   formatWindSpeed,
-} from '@/constants/Units';
+} from '@/src/constants/Units';
+import { WeatherCollection } from '@/src/providers/WeatherProvider';
 
 export const WeatherTable = ({
   weatherData,
@@ -47,6 +48,9 @@ export const WeatherTable = ({
           <ThemedText style={styles.cell}>
             {formatWindSpeed(item.windSpeed)}
           </ThemedText>
+          <ThemedText style={styles.cell}>
+            {formatPrecipitation(item.precipitation)}
+          </ThemedText>
         </ThemedView>
       )}
       ListEmptyComponent={() => (
@@ -66,5 +70,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     padding: 10,
+    textAlign: 'center',
+    flexWrap: 'nowrap',
   },
 });

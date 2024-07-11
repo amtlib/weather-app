@@ -9,10 +9,10 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useColorScheme } from '@/src/hooks/useColorScheme';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { WeatherProvider } from '@/providers/WeatherProvider';
-import { LocationProvider } from '@/providers/LocationProvider';
+import { LocationProvider } from '@/src/providers/LocationProvider';
+import { WeatherProvider } from '@/src/providers/WeatherProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

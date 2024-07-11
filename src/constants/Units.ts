@@ -7,16 +7,16 @@ export const Units = {
 };
 
 export const formatTemperature = (temp: number) =>
-  `${temp}${Units.temperature}`;
+  `${Math.round(temp)}${Units.temperature}`;
 
 export const formatHumidity = (humidity: number) =>
-  `${humidity}${Units.humidity}`;
+  `${Math.round(humidity)}${Units.humidity}`;
 
 export const formatPressure = (pressure: number) =>
-  `${pressure} ${Units.pressure}`;
+  `${Math.round(pressure)} ${Units.pressure}`;
 
 export const formatWindSpeed = (windSpeed: number) =>
-  `${windSpeed} ${Units.windSpeed}`;
+  `${Math.round(windSpeed)} ${Units.windSpeed}`;
 
 export const formatPrecipitation = (precipitation: number) =>
   `${precipitation}${Units.precipitation}`;

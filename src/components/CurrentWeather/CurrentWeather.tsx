@@ -3,16 +3,16 @@ import { View, Image } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
-import { WeatherEntry } from '@/api/validators/weatherapi.validator';
+import { WeatherEntry } from '@/src/api/validators/weatherapi.validator';
 import {
   formatHumidity,
   formatPrecipitation,
   formatPressure,
   formatTemperature,
   formatWindSpeed,
-} from '@/constants/Units';
+} from '@/src/constants/Units';
 import { getWeatherIcon } from '@/assets/images/weather';
-import { useLocationContext } from '@/providers/LocationProvider';
+import { useLocationContext } from '@/src/providers/LocationProvider';
 
 export const CurrentWeather = ({
   weather,

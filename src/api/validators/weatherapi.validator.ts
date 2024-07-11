@@ -19,7 +19,6 @@ export type WeatherCollection = {
   entries: WeatherEntry[];
 }[];
 
-// Define Zod schemas
 const MetaSchema = z.object({
   updated_at: z.string(),
   units: z.object({

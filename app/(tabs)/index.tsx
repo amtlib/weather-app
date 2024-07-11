@@ -1,7 +1,7 @@
-import { SafeView } from '@/components/layout/SafeView';
-import { useWeatherContext } from '@/providers/WeatherProvider';
-import { CurrentWeather } from '@/components/CurrentWeather/CurrentWeather';
-import { WeatherTable } from '@/components/WeatherTable/WeatherTable';
+import { CurrentWeather } from '@/src/components/CurrentWeather/CurrentWeather';
+import { WeatherTable } from '@/src/components/WeatherTable/WeatherTable';
+import { SafeView } from '@/src/components/layout/SafeView';
+import { useWeatherContext } from '@/src/providers/WeatherProvider';
 
 export default function HomeScreen() {
   const { weather, isLoading } = useWeatherContext();

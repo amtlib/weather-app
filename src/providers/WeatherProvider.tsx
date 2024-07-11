@@ -13,8 +13,8 @@ import dayjs, { Dayjs } from 'dayjs';
 import {
   WeatherEntry,
   validateWeatherApiResponse,
-} from '@/api/validators/weatherapi.validator';
-import { WeatherApiResponse } from '@/api/validators/weatherapi.types';
+} from '@/src/api/validators/weatherapi.validator';
+import { WeatherApiResponse } from '@/src/api/validators/weatherapi.types';
 import * as Location from 'expo-location';
 import { useLocationContext } from './LocationProvider';
 
@@ -38,6 +38,7 @@ const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
   data.properties.timeseries.forEach((entry) => {
     const entryTime = dayjs(entry.time);
     const entryDate = entryTime.format('YYYY-MM-DD');
+    console.log(entry.data.next_1_hours?.details?.precipitation_amount);
 
     const weatherEntry: WeatherEntry = {
       time: entryTime,
