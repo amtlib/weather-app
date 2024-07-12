@@ -85,7 +85,6 @@ const icons = {
 };
 
 export const getWeatherIcon = (symbolCode: string | undefined) => {
-  console.log(symbolCode);
   if (!symbolCode) return '';
   if (symbolCode in icons) {
     return icons[symbolCode as keyof typeof icons];

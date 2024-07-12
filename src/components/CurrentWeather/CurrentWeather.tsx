@@ -24,12 +24,12 @@ export const CurrentWeather = ({
   const { city, country } = useLocationContext();
   if (isLoading || !weather) return <></>;
   return (
-    <ThemedView style={styles.container}>
-      <View style={styles.locationSection}>
+    <ThemedView className="p-5 mx-2 my-5 flex-col flex rounded-xl bg-slate-300">
+      <ThemedView className="mb-10">
         <ThemedText type="title" style={{ textAlign: 'center' }}>
           {city}, {country}
         </ThemedText>
-      </View>
+      </ThemedView>
       <View style={styles.topSection}>
         <Image
           style={styles.icon}
@@ -39,10 +39,7 @@ export const CurrentWeather = ({
           <ThemedText type="title">
             {formatTemperature(weather.temperature)}
           </ThemedText>
-          <ThemedText
-            type="subtitle"
-            style={{ textAlign: 'center', marginTop: 5 }}
-          >
+          <ThemedText type="subtitle" className="text-center mt-2">
             {formatPrecipitation(weather.precipitation)}
           </ThemedText>
         </View>
@@ -57,20 +54,9 @@ export const CurrentWeather = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginHorizontal: 20,
-    marginVertical: 10,
-    padding: 20,
-    borderRadius: 10,
-  },
   icon: {
     width: 100,
     height: 100,
-  },
-  locationSection: {
-    marginBottom: 20,
   },
   topSection: {
     display: 'flex',

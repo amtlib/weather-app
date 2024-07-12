@@ -1,27 +1,10 @@
-import { View, type ViewProps } from 'react-native';
+import { View } from 'react-native';
 import { styled } from 'nativewind';
-
-import { useThemeColor } from '@/src/hooks/useThemeColor';
-
-export type ThemedViewProps = ViewProps & {
-  lightColor?: string;
-  darkColor?: string;
-};
+import { ComponentProps } from 'react';
 
 const StyledView = styled(View);
+export type ThemedViewProps = ComponentProps<typeof StyledView>;
 
-export function ThemedView({
-  style,
-  lightColor,
-  darkColor,
-  ...otherProps
-}: ThemedViewProps) {
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    'background',
-  );
-
-  return (
-    <StyledView className="dark:bg-slate-800" style={[style]} {...otherProps} />
-  );
+export function ThemedView(props: ThemedViewProps) {
+  return <StyledView {...props} />;
 }

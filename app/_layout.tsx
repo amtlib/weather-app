@@ -34,12 +34,10 @@ export default function RootLayout() {
   }
 
   return (
-    <LocationProvider>
-      <WeatherProvider>
-        <SafeAreaProvider>
-          <ThemeProvider
-            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-          >
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <LocationProvider>
+        <WeatherProvider>
+          <SafeAreaProvider>
             <Stack>
               <Stack.Screen
                 name="(tabs)/index"
@@ -47,9 +45,9 @@ export default function RootLayout() {
               />
               <Stack.Screen name="+not-found" />
             </Stack>
-          </ThemeProvider>
-        </SafeAreaProvider>
-      </WeatherProvider>
-    </LocationProvider>
+          </SafeAreaProvider>
+        </WeatherProvider>
+      </LocationProvider>
+    </ThemeProvider>
   );
 }

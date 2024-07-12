@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SectionList } from 'react-native';
+import { SectionList } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 import {
@@ -10,6 +10,8 @@ import {
   formatWindSpeed,
 } from '@/src/constants/Units';
 import { WeatherCollection } from '@/src/providers/WeatherProvider';
+
+const cellClassName = 'py-5 text-center flex-nowrap';
 
 export const WeatherTable = ({
   weatherData,
@@ -27,28 +29,28 @@ export const WeatherTable = ({
       keyExtractor={(item) => item.time.toString()}
       stickySectionHeadersEnabled
       renderSectionHeader={({ section: { title } }) => (
-        <ThemedView style={styles.stickyTitle}>
+        <ThemedView className="px-5 py-2 bg-slate-300">
           <ThemedText type="defaultSemiBold">{title}</ThemedText>
         </ThemedView>
       )}
       renderItem={({ item }) => (
-        <ThemedView style={styles.tableRow}>
-          <ThemedText style={styles.cell}>
+        <ThemedView className="flex flex-row justify-between w-max px-5">
+          <ThemedText className={cellClassName}>
             {item.time.format('HH:mm')}
           </ThemedText>
-          <ThemedText style={styles.cell}>
+          <ThemedText className={cellClassName}>
             {formatTemperature(item.temperature)}
           </ThemedText>
-          <ThemedText style={styles.cell}>
+          <ThemedText className={cellClassName}>
             {formatPressure(item.pressure)}
           </ThemedText>
-          <ThemedText style={styles.cell}>
+          <ThemedText className={cellClassName}>
             {formatHumidity(item.humidity)}
           </ThemedText>
-          <ThemedText style={styles.cell}>
+          <ThemedText className={cellClassName}>
             {formatWindSpeed(item.windSpeed)}
           </ThemedText>
-          <ThemedText style={styles.cell}>
+          <ThemedText className={cellClassName}>
             {formatPrecipitation(item.precipitation)}
           </ThemedText>
         </ThemedView>
@@ -59,18 +61,3 @@ export const WeatherTable = ({
     />
   );
 };
-
-const styles = StyleSheet.create({
-  stickyTitle: {
-    padding: 10,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  cell: {
-    padding: 10,
-    textAlign: 'center',
-    flexWrap: 'nowrap',
-  },
-});
