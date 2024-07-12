@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList } from 'react-native';
+import { SectionList, Image } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 import {
@@ -10,8 +10,12 @@ import {
   formatWindSpeed,
 } from '@/src/constants/Units';
 import { WeatherCollection } from '@/src/providers/WeatherProvider';
+import { styled } from 'nativewind';
+import { getWeatherIcon } from '@/assets/images/weather';
 
 const cellClassName = 'py-5 text-center flex-nowrap';
+
+const StyledImage = styled(Image);
 
 export const WeatherTable = ({
   weatherData,
@@ -34,8 +38,12 @@ export const WeatherTable = ({
         </ThemedView>
       )}
       renderItem={({ item }) => (
-        <ThemedView className="flex flex-row justify-between w-max px-5">
+        <ThemedView className="flex flex-row justify-between w-max px-5 items-center">
           <ThemedText className={cellClassName}>
+            <StyledImage
+              className="w-5 h-5"
+              source={getWeatherIcon(item.symbolCode)}
+            />
             {item.time.format('HH:mm')}
           </ThemedText>
           <ThemedText className={cellClassName}>

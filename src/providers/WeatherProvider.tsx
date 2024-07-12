@@ -46,7 +46,11 @@ const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
       humidity: entry.data.instant.details.relative_humidity,
       windDirection: entry.data.instant.details.wind_from_direction,
       windSpeed: entry.data.instant.details.wind_speed,
-      symbolCode: entry.data.next_1_hours?.summary.symbol_code || undefined,
+      symbolCode:
+        entry.data.next_1_hours?.summary.symbol_code ||
+        entry.data.next_6_hours?.summary.symbol_code ||
+        entry.data.next_12_hours?.summary.symbol_code ||
+        undefined,
       precipitation:
         entry.data.next_1_hours?.details?.precipitation_amount || 0,
     };
@@ -54,7 +58,9 @@ const groupWeatherByDay = (data: WeatherApiResponse): WeatherCollection => {
     if (!groupedWeather[entryDate]) {
       groupedWeather[entryDate] = [];
     }
-    groupedWeather[entryDate].push(weatherEntry);
+    if (weatherEntry.symbolCode) {
+      groupedWeather[entryDate].push(weatherEntry);
+    }
   });
 
   return Object.keys(groupedWeather).map((date) => ({

@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { View, Image } from 'react-native';
-import { StyleSheet } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 import { WeatherEntry } from '@/src/api/validators/weatherapi.validator';
@@ -13,6 +12,9 @@ import {
 } from '@/src/constants/Units';
 import { getWeatherIcon } from '@/assets/images/weather';
 import { useLocationContext } from '@/src/providers/LocationProvider';
+import { styled } from 'nativewind';
+
+const StyledImage = styled(Image);
 
 export const CurrentWeather = ({
   weather,
@@ -30,9 +32,9 @@ export const CurrentWeather = ({
           {city}, {country}
         </ThemedText>
       </ThemedView>
-      <View style={styles.topSection}>
-        <Image
-          style={styles.icon}
+      <ThemedView className="flex flex-row items-center justify-between">
+        <StyledImage
+          className="w-28 h-28"
           source={getWeatherIcon(weather.symbolCode)}
         />
         <View>
@@ -43,31 +45,12 @@ export const CurrentWeather = ({
             {formatPrecipitation(weather.precipitation)}
           </ThemedText>
         </View>
-      </View>
-      <View style={styles.details}>
+      </ThemedView>
+      <ThemedView className="flex flex-row mt-5 justify-between">
         <ThemedText>{formatHumidity(weather.humidity)}</ThemedText>
         <ThemedText>{formatPressure(weather.pressure)}</ThemedText>
         <ThemedText>{formatWindSpeed(weather.windSpeed)}</ThemedText>
-      </View>
+      </ThemedView>
     </ThemedView>
   );
 };
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 100,
-    height: 100,
-  },
-  topSection: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  details: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: 20,
-    justifyContent: 'space-between',
-  },
-});
