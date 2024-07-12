@@ -29,13 +29,14 @@ const getCityAndCountry = async (
   latitude: number,
   longitude: number,
 ): Promise<LocationDescription | null> => {
+  if (!process.env.EXPO_PUBLIC_GEOLOCATION_API_URL) return null;
   try {
     const response = await axios.get(
-      'https://api.opencagedata.com/geocode/v1/json',
+      process.env.EXPO_PUBLIC_GEOLOCATION_API_URL,
       {
         params: {
           q: `${latitude}+${longitude}`,
-          key: process.env.GEOLOCATION_API_KEY,
+          key: process.env.EXPO_PUBLIC_GEOLOCATION_API_KEY,
         },
       },
     );

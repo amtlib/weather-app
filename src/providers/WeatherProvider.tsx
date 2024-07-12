@@ -19,7 +19,8 @@ import * as Location from 'expo-location';
 import { useLocationContext } from './LocationProvider';
 
 const getWeatherEndpoint = (location: Location.LocationObject) => {
-  return `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
+  if (!process.env.EXPO_PUBLIC_WEATHER_API_URL) return '';
+  return `${process.env.EXPO_PUBLIC_WEATHER_API_URL}?lat=${location.coords.latitude}&lon=${location.coords.longitude}`;
 };
 
 interface WeatherContextType {

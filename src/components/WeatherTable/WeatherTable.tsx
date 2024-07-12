@@ -13,7 +13,7 @@ import { WeatherCollection } from '@/src/providers/WeatherProvider';
 import { styled } from 'nativewind';
 import { getWeatherIcon } from '@/assets/images/weather';
 
-const cellClassName = 'py-5 text-center flex-nowrap';
+const cellClassName = 'py-5 text-center flex-nowrap dark:text-slate-100';
 
 const StyledImage = styled(Image);
 
